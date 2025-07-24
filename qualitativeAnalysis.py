@@ -74,7 +74,7 @@ def saveVideo(file, name, dest, asFrames = False, fps = 29):
 
 def qualitative(args):
     mode = "both"
-    dataset = 'rwf2000'
+    dataset = 'hockey'
     vid_len = 32
     dataset_frame_size = 320
     input_frame_size = 224
@@ -127,7 +127,7 @@ def evaluate(model, datagen, dest, count = 100):
         else:
             predicted = 0   
         print("> index:",i, " target:",target, " predicted:",predicted)
-        saveVideo(data, str(i)+"_GT:"+str(classes[target])+"_PL:"+str(classes[predicted]), dest, asFrames = True)
+        saveVideo(data, str(i)+"_GT-"+str(classes[target])+"_PL-"+str(classes[predicted]), dest, asFrames = True)
 
 def main():
     ap = argparse.ArgumentParser()

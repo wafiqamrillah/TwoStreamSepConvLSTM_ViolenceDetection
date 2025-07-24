@@ -157,9 +157,9 @@ def train(args):
     if create_new_model:
         print('> creating new model...')
         model = model_function(size=input_frame_size, seq_len=vid_len,cnn_trainable=cnn_trainable, frame_diff_interval = frame_diff_interval, mode=mode, lstm_type=lstm_type)
-        if dataset == "hockey" or dataset == "movies":
-            print('> loading weights pretrained on rwf dataset from', rwfPretrainedPath)
-            model.load_weights(rwfPretrainedPath)
+        # if dataset == "hockey" or dataset == "movies":
+        #     print('> loading weights pretrained on rwf dataset from', rwfPretrainedPath)
+        #     model.load_weights(rwfPretrainedPath)
         optimizer = Adam(lr=initial_learning_rate, amsgrad=True)
         model.compile(optimizer=optimizer, loss=loss, metrics=['acc'])
         print('> new model created')    
@@ -204,6 +204,7 @@ def train(args):
     callback_list.append(LearningRateScheduler(lr_scheduler, verbose = 0))
                     
     #--------------------------------------------------
+    print('> training directory...', train_generator.directory)
 
     model.fit(
         steps_per_epoch=len(train_generator),
@@ -232,7 +233,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='rwf2000', help='dataset - rwf2000, movies, hockey', choices=['rwf2000','movies','hockey']) 
     parser.add_argument('--lstmType', type=str, default='sepconv', help='lstm - conv, sepconv, asepconv, 3dconvblock(use 3dconvblock instead of lstm)', choices=['sepconv','asepconv', 'conv', '3dconvblock'])
     parser.add_argument('--fusionType', type=str, default='C', help='fusion type - A for add, M for multiply, C for concat', choices=['C','A','M']) 
-    parser.add_argument('--savePath', type=str, default='/gdrive/My Drive/THESIS/Data', help='folder path to save the models')
+    parser.add_argument('--savePath', type=str, default='.', help='folder path to save the models')
     parser.add_argument('--rwfPretrainedPath', type=str, default='NOT_SET', help='path to the weights pretrained on rwf dataset')
     parser.add_argument('--resumePath', type=str, default='NOT_SET', help='path to the weights for resuming from previous checkpoint')
     parser.add_argument('--resumeLearningRate', type=float, default=5e-05, help='learning rate to resume training from')
